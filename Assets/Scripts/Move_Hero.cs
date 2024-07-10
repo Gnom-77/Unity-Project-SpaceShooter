@@ -25,9 +25,24 @@ public class Move_Hero : MonoBehaviour
 
     private void Update()
     {
-        mousePositin = Input.mousePosition;
-        mousePositin = Camera.main.ScreenToWorldPoint(mousePositin);
-        positin = Vector2.Lerp(transform.position, mousePositin, moveSpeed);
+        //mousePositin = Input.mousePosition;
+        //if (mousePositin.x >= 0 && mousePositin.x <= Screen.width && mousePositin.y >= 0 && mousePositin.y <= Screen.height)
+        //{
+        //    mousePositin = Camera.main.ScreenToWorldPoint(mousePositin);
+        //    positin = Vector2.Lerp(transform.position, mousePositin, moveSpeed);
+        //}
+        // Проверяем, есть ли касание на экране
+        if (Input.touchCount > 0)
+        {
+            // Получаем первое касание
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+            {
+                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+                positin = Vector2.Lerp(transform.position, touchPosition, moveSpeed);
+            }
+        }
     }
 
     private void FixedUpdate()
